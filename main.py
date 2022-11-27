@@ -61,16 +61,17 @@ def orderProductCount(order_id):
 def dborderItem(product, user):
     sql1 = "INSERT INTO user_order (order_id, user_id, address, total_price) VALUES (%s,%s,%s,%s)"
     sql2 = "INSERT INTO order_product (order_product_id, product_id, order_id, count) VALUES (%s,%s,%s,%s)"
+    sql3 = "UPDATE product SET product_stock = product_stock - 1 WHERE product_id = " + str(product.id) +";"
     order_id = user.id*1000 + userOrderCount(user)
     order_product_id = order_id*10 + orderProductCount(order_id)
     count = 1
     val1 = (str(order_id), str(user.id), user.address, str(product.price))
     val2 = (str(order_product_id),str(product.id),str(order_id),str(count))
+
     cursor = cnx.cursor()
-    print(val1)
-    print(val2)
     cursor.execute(sql1,val1)
     cursor.execute(sql2,val2)
+    cursor.execute(sql3)
     cnx.commit()
     
 def findProduct(products, id):
@@ -111,10 +112,12 @@ class MainWindow(QtWidgets.QMainWindow,UI_class):
             item_attributes = item.data().split(" ")
             item_id = item_attributes[0].rstrip()
             product = findProduct(self.products, item_id)
-            #dborderItem(product, self.user)   
+            dborderItem(product, self.user)   
         Dialog = QtWidgets.QDialog() 
         alert = QtWidgets.QMessageBox()
         alert.information(Dialog, "알림", "주문했습니다.")
+        self.main = MainWindow(self.user)
+        self.close()
 
     def goSupply(self):
         self.supply = supply.SupplyWindow(self.user)
@@ -126,7 +129,7 @@ class MainWindow(QtWidgets.QMainWindow,UI_class):
 
     def exist(self):
         self.close()
-        
+
 if __name__=='__main__':
     app=QtWidgets.QApplication(sys.argv)
     user = User(777,"정재우","경기도")
