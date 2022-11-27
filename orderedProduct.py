@@ -59,7 +59,7 @@ def getItems():
     return products
 
 def getOrders(user):
-    query = ("SELECT * FROM user_order where user_id = " + str(user.id)) # db에서 상품목록 가지고 오기
+    query = ("SELECT * FROM user_order where user_id = " + str(user.id)) # db에서 order목록 가지고 오기
     cursor = cnx.cursor()
     cursor.execute(query)
     orders = []
@@ -69,7 +69,7 @@ def getOrders(user):
     return orders
 
 def getOrderProducts(order_id):
-    query = ("SELECT * FROM order_product where order_id = " + str(order_id)) # db에서 상품목록 가지고 오기
+    query = ("SELECT * FROM order_product where order_id = " + str(order_id)) # db에서 order상품목록 가지고 오기
     cursor = cnx.cursor()
     cursor.execute(query)
     orderProducts = []
@@ -88,8 +88,8 @@ def makeList(products, orders):
     rows = []
     for order in orders:
         orderProducts = getOrderProducts(order.id)
-        row = []
         for orderProduct in orderProducts:
+            row = []
             if orderProduct.order_id != order.id:
                 continue
             product = getProduct(orderProduct.product_id, products)
