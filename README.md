@@ -15,3 +15,10 @@ langauge : python
 pip install pyqt5
 pip install pyqt5-tools
 ```
+
+#### 시작
+페이지 시작은 login.py 부터 시작. ( 각 파일 실행 가능)
+
+페이지 순환
+>login -> main <-> supply, \
+>         main <-> orderedProduct
