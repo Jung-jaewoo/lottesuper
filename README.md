@@ -11,5 +11,7 @@
 
 #### 설치
 langauge : python
-> pip install pyqt5
-> pip install pyqt5-tools
+```
+pip install pyqt5
+pip install pyqt5-tools
+```
